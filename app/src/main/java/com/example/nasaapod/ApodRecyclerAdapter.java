@@ -2,12 +2,13 @@ package com.example.nasaapod;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.nasaapod.databinding.CardItemBinding;
-import com.example.nasaapod.placeholder.PlaceholderContent.PlaceholderItem;
+import com.example.nasaapod.data.model.PlaceholderItem;
 
 import java.util.List;
 
@@ -15,12 +16,14 @@ import java.util.List;
  * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class ApodListRecyclerViewAdapter extends RecyclerView.Adapter<ApodListRecyclerViewAdapter.ViewHolder> {
+public class ApodRecyclerAdapter extends RecyclerView.Adapter<ApodRecyclerAdapter.ViewHolder> {
 
-    private final List<PlaceholderItem> mValues;
+    private Context context;
+    private List<PlaceholderItem> imageItem;
 
-    public ApodListRecyclerViewAdapter(List<PlaceholderItem> items) {
-        mValues = items;
+    public ApodRecyclerAdapter(Context context, List<PlaceholderItem> items) {
+        this.context = context;
+        this.imageItem = items;
     }
 
     @Override
@@ -32,13 +35,8 @@ public class ApodListRecyclerViewAdapter extends RecyclerView.Adapter<ApodListRe
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
+        holder.mItem = imageItem.get(position);
         holder.mTitle.setText(holder.mItem.id);
-    }
-
-    @Override
-    public int getItemCount() {
-        return mValues.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -49,5 +47,10 @@ public class ApodListRecyclerViewAdapter extends RecyclerView.Adapter<ApodListRe
             super(binding.getRoot());
             mTitle = binding.itemTitle;
         }
+    }
+
+    @Override
+    public int getItemCount() {
+        return imageItem.size();
     }
 }
