@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * TODO: add recyclerView binding
          */
-        RecyclerView cardRecycler = null;
+        RecyclerView cardRecycler = binding.recyclerView;
 
 
         int spanCount = 2;
@@ -40,20 +41,22 @@ public class MainActivity extends AppCompatActivity {
         /**
          * TODO: call setLayoutManager method on cardRecycler to set gridLayoutManager from above
          */
+        cardRecycler.setLayoutManager(gridLayoutManager);
 
         /**
          * TODO: create ApodAdapter with context parameter
          */
-        ApodRecyclerAdapter apodAdapter = null;
+        ApodRecyclerAdapter apodAdapter = new ApodRecyclerAdapter(this, new ArrayList<>());
 
         /**
          * TODO: call setAdapter method on cardRecycler to set apodAdapter
          */
+        cardRecycler.setAdapter(apodAdapter);
 
         /**
          * TODO: replace null with method call
          */
-        Call<List<ApodImage>> imagesCall = null;
+        Call<List<ApodImage>> imagesCall = getImageListFromAPI();
 
         imagesCall.enqueue(new Callback<List<ApodImage>>() {
             @Override
@@ -63,10 +66,14 @@ public class MainActivity extends AppCompatActivity {
                 /*
                 TODO: call setImages method on adapter with list returned from response body
                  */
+                apodAdapter.setImagelist(
+                        apodImageList
+                );
 
                 /*
                 TODO: call notifyDataSetChanged to update recyclerview
                  */
+                apodAdapter.notifyDataSetChanged();
 
             }
             @Override

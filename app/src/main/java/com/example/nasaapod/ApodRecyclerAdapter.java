@@ -5,8 +5,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.nasaapod.data.model.ApodImage;
 import com.example.nasaapod.databinding.CardItemBinding;
 import com.example.nasaapod.data.model.PlaceholderItem;
 
@@ -19,9 +22,9 @@ import java.util.List;
 public class ApodRecyclerAdapter extends RecyclerView.Adapter<ApodRecyclerAdapter.ViewHolder> {
 
     private Context context;
-    private List<PlaceholderItem> imageItem;
+    private List<ApodImage> imageItem;
 
-    public ApodRecyclerAdapter(Context context, List<PlaceholderItem> items) {
+    public ApodRecyclerAdapter(Context context, List<ApodImage> items) {
         this.context = context;
         this.imageItem = items;
     }
@@ -35,22 +38,31 @@ public class ApodRecyclerAdapter extends RecyclerView.Adapter<ApodRecyclerAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = imageItem.get(position);
-        holder.mTitle.setText(holder.mItem.id);
+        ApodImage item = imageItem.get(position);
+        holder.mTitle.setText(item.title);
+
+        Glide.with(context)
+                .load(item.hdurl)
+                .into(holder.mImage);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mTitle;
-        public PlaceholderItem mItem;
+        public final ImageView mImage;
 
         public ViewHolder(CardItemBinding binding) {
             super(binding.getRoot());
             mTitle = binding.itemTitle;
+            mImage = binding.itemImage;
         }
     }
 
     @Override
     public int getItemCount() {
         return imageItem.size();
+    }
+
+    void setImagelist (List<ApodImage> imagelist) {
+        imageItem = imagelist;
     }
 }
